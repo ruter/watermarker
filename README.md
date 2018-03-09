@@ -4,6 +4,10 @@
 
 Use [watermark.js](https://github.com/brianium/watermarkjs) and [Mint UI](https://mint-ui.github.io/#!/en)
 
+# Preview
+
+![Add watermark](https://ws1.sinaimg.cn/large/61145738ly1fp6i9ys3txg20ag0ijkjq.gif)
+
 ## Build Setup
 
 ``` bash
