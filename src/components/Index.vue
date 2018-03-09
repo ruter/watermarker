@@ -97,8 +97,8 @@ export default {
       context.font = `${size}px Arial`
       context.rotate(45 * Math.PI / 180)
 
-      for (let i=0; i < 50; i++) {
-        y = y - gap * 2
+      for (let i=0; i < 100; i++) {
+        y = y - gap * 3
         context.fillText(text, x, y)
       }
       return target;
