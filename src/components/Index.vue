@@ -16,6 +16,16 @@
       <label for="markedC3" class="markedColor" style="left: 112px;background-color: #f7333b"></label>
     </div>
     <div>
+      <span class="markedLabel">大小</span>
+      <mt-range
+              v-model="markedSize"
+              :min="16"
+              :max="80"
+              :step="8"
+              :bar-height="5">
+      </mt-range>
+    </div>
+    <div style="margin-top: 8px">
       <span class="markedLabel">透明度</span>
       <mt-range
         v-model="markedAlpha"
