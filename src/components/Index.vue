@@ -189,11 +189,4 @@ export default {
     margin-top: 8px;
     margin-left: 8px;
   }
-  .mt-range {
-    position: absolute;
-    top: 0;
-    left: 48px;
-    width: 94%;
-    margin-left: 64px;
-  }
 </style>
