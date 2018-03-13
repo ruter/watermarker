@@ -6,16 +6,18 @@
     <div>
       <mt-field label="内容" placeholder="请输入水印内容..." v-model="markedText"></mt-field>
     </div>
-    <div class="markedColorRow">
+    <div class="markedInline">
       <span>颜色</span>
-      <input id="markedC1" type="radio" value="#fff" name="color" @change="handleColorChange" checked>
-      <label for="markedC1" class="markedColor" style="background-color: #fff"></label>
-      <input id="markedC2" type="radio" value="#000" name="color" @change="handleColorChange">
-      <label for="markedC2" class="markedColor" style="left: 80px;background-color: #000"></label>
-      <input id="markedC3" type="radio" value="#f7333b" name="color" @change="handleColorChange">
-      <label for="markedC3" class="markedColor" style="left: 112px;background-color: #f7333b"></label>
+      <div class="markedColorRow">
+        <input id="markedC1" type="radio" value="#fff" name="color" @change="handleColorChange" checked>
+        <label for="markedC1" class="markedColor" style="background-color: #fff"></label>
+        <input id="markedC2" type="radio" value="#000" name="color" @change="handleColorChange">
+        <label for="markedC2" class="markedColor" style="left: 80px;background-color: #000"></label>
+        <input id="markedC3" type="radio" value="#f7333b" name="color" @change="handleColorChange">
+        <label for="markedC3" class="markedColor" style="left: 112px;background-color: #f7333b"></label>
+      </div>
     </div>
-    <div>
+    <div class="markedInline">
       <span class="markedLabel">大小</span>
       <mt-range
               v-model="markedSize"
@@ -25,7 +27,7 @@
               :bar-height="5">
       </mt-range>
     </div>
-    <div style="margin-top: 8px">
+    <div class="markedInline" style="margin-top: 8px">
       <span class="markedLabel">透明度</span>
       <mt-range
         v-model="markedAlpha"
@@ -156,8 +158,10 @@ export default {
     border: 1px solid #999;
   }
   .markedColorRow {
-    position: relative;
-    line-height: 30px;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    margin-left: 32px;
   }
   input[type="radio"] {
     width: 20px;
@@ -178,5 +182,18 @@ export default {
     border-top: none;
     border-left: none;
     transform: rotate(45deg)
+  }
+  .markedInline {
+    position: relative;
+    line-height: 30px;
+    margin-top: 8px;
+    margin-left: 8px;
+  }
+  .mt-range {
+    position: absolute;
+    top: 0;
+    left: 48px;
+    width: 94%;
+    margin-left: 64px;
   }
 </style>
