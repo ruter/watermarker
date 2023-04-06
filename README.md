@@ -1,26 +1,38 @@
-# watermarker
+# create-svelte
 
-> Add watermark to image
+Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
-Use [watermark.js](https://github.com/brianium/watermarkjs) and [Mint UI](https://mint-ui.github.io/#!/en)
+## Creating a project
 
-# Preview
+If you're seeing this, you've probably already done this step. Congrats!
 
-![Add watermark](https://ws1.sinaimg.cn/large/61145738ly1fp6i9ys3txg20ag0ijkjq.gif)
+```bash
+# create a new project in the current directory
+npm create svelte@latest
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+# create a new project in my-app
+npm create svelte@latest my-app
 ```
 
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```bash
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
+
+## Building
+
+To create a production version of your app:
+
+```bash
+npm run build
+```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
