@@ -1,0 +1,11 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+app_name: Watermarker
+icon: ./static/icon.png
+micros:
+  - name: Watermarker
+    src: .
+    engine: svelte-kit
+    primary: true
+    public_routes:
+      - /*
