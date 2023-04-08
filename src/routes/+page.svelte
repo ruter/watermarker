@@ -5,13 +5,13 @@
     let isUploaded = false;
     let markedImage: string;
     let images: FileList;
-    let canvas:HTMLCanvasElement;
+    let canvas: HTMLCanvasElement;
     let color = "#FFFFFF";
     let content = "";
     let activeTab = "text";
-    let transparent = "50";
-    let textSize = "32";
-    let tileSpace = "24";
+    let alpha = 50;
+    let textSize = 32;
+    let tileSpace = 24;
 
     const imageChanged = () => {
         const ctx = canvas.getContext('2d');
@@ -49,16 +49,17 @@
         img.onload = function() {
             ctx.save();
 
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            ctx.globalAlpha = parseInt(transparent) / 100;
+            ctx.globalAlpha = alpha / 100;
             ctx.fillStyle = color;
             ctx.textBaseline = "middle";
             ctx.font = `bold ${textSize}px serif`;
 
             const textWidth: number = ctx.measureText(content).width;
-            const textHeight: number = parseInt(textSize);
+            const textHeight: number = textSize;
 
-            const gap: number = parseInt(tileSpace);
+            const gap: number = tileSpace;
 
             const rows: number = Math.ceil(canvas.height / (textHeight + gap));
             const cols: number = Math.ceil(canvas.width / (textWidth + gap));
@@ -78,9 +79,9 @@
         color = "#FFFFFF";
         content = "";
         activeTab = "text";
-        transparent = "50";
-        textSize = "32";
-        tileSpace = "24";
+        alpha = 50;
+        textSize = 32;
+        tileSpace = 24;
     }
 
     const applyChange = async () => {
@@ -90,24 +91,24 @@
 </script>
 
 <div>
-    <div class="flex justify-center px-2" class:hidden={!isUploaded}>
+    <div class="w-full h-full flex flex-wrap justify-center px-2" class:hidden={!isUploaded}>
         <canvas bind:this={canvas} class="bg-white max-w-full"></canvas>
     </div>
-    <div class="px-2" class:hidden={isUploaded}>
+    <div class="w-full h-full px-2" class:hidden={isUploaded}>
         <Uploader bind:images on:change={imageChanged} />
     </div>
 </div>
 
-<div class="md:hidden" class:hidden={!isUploaded}>
-    <div class="fixed bottom-0 left-0 z-50 w-full border-t border-gray-200 md:hidden">
+<div class:hidden={!isUploaded}>
+    <div class="fixed bottom-0 left-0 z-50 w-full border-t border-gray-200">
         <div class="w-full bg-indigo-600">
             <div
-                class="flex justify-between w-full p-4 transition-opacity duration-150 ease-linear"
+                class="flex justify-center space-x-2 w-full p-4 transition-opacity duration-150 ease-linear"
                 class:hidden={activeTab !== "text"}
                 id="tabs-text"
                 role="tabpanel"
                 aria-labelledby="tabs-text-tab">
-                <label for="watermarkText" class="p-2 mr-2 bg-indigo-400 rounded">
+                <label for="watermarkText" class="w-full p-2 mr-2 bg-indigo-400 rounded">
                     <input
                         bind:value={content}
                         on:change={drawText}
@@ -115,24 +116,24 @@
                         name="watermarkText"
                         id="watermarkText"
                         placeholder="Text Here"
-                        class="rounded h-8 px-1 placeholder-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-0 focus:ring-indigo-400" />
+                        class="w-full rounded h-8 px-1 placeholder-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-0 focus:ring-indigo-400" />
                 </label>
-                <label for="transparent" class="p-2 inline-flex items-center bg-indigo-400 rounded">
+                <label for="alpha" class="w-full p-2 inline-flex items-center bg-indigo-400 rounded">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mr-1 text-white">
                         <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
                         <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" clip-rule="evenodd" />
                     </svg>
-                    <span class="mr-2 text-white text-sm">{transparent}%</span>
+                    <span class="mr-2 text-white text-sm">{alpha}%</span>
                     <input
                         type="range"
                         class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                         min="0"
                         max="100"
                         step="10"
-                        bind:value={transparent}
+                        bind:value={alpha}
                         on:change={drawText}
-                        name="transparent"
-                        id="transparent" />
+                        name="alpha"
+                        id="alpha" />
                 </label>
             </div>
 
@@ -225,7 +226,7 @@
                     </svg>
                 </button>
             </li>
-            <li class="w-full">
+            <li class="w-full bg-white">
                 <a href="#text" on:click={() => activeTab = "text"} class="w-full inline-flex justify-center p-4 border-t-2 {activeTab === 'text' ? 'text-white bg-indigo-600 border-indigo-600' : 'border-transparent'}">
                     <svg aria-hidden="true" class="w-5 h-5 mr-1 {activeTab === 'text' ? 'text-white' : 'text-gray-400'}" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 00-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 00-2.282.819l-.922 1.597a1.875 1.875 0 00.432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 000 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 00-.432 2.385l.922 1.597a1.875 1.875 0 002.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 002.28-.819l.923-1.597a1.875 1.875 0 00-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 000-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 00-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 00-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 00-1.85-1.567h-1.843zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z" clip-rule="evenodd" />
@@ -238,7 +239,7 @@
                     <svg aria-hidden="true" class="w-5 h-5 mr-1 hover:text-gray-500 {activeTab === 'font' ? 'text-white' : 'text-gray-400'}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg>FONT
                 </a>
             </li> -->
-            <li class="w-full">
+            <li class="w-full bg-white">
                 <a href="#style" on:click={() => activeTab = "style"} class="w-full inline-flex justify-center p-4 border-t-2 {activeTab === 'style' ? 'text-white bg-indigo-600 border-indigo-600' : 'border-transparent'}">
                     <svg aria-hidden="true" class="w-5 h-5 mr-1 {activeTab === 'style' ? 'text-white' : 'text-gray-400'}" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M20.599 1.5c-.376 0-.743.111-1.055.32l-5.08 3.385a18.747 18.747 0 00-3.471 2.987 10.04 10.04 0 014.815 4.815 18.748 18.748 0 002.987-3.472l3.386-5.079A1.902 1.902 0 0020.599 1.5zm-8.3 14.025a18.76 18.76 0 001.896-1.207 8.026 8.026 0 00-4.513-4.513A18.75 18.75 0 008.475 11.7l-.278.5a5.26 5.26 0 013.601 3.602l.502-.278zM6.75 13.5A3.75 3.75 0 003 17.25a1.5 1.5 0 01-1.601 1.497.75.75 0 00-.7 1.123 5.25 5.25 0 009.8-2.62 3.75 3.75 0 00-3.75-3.75z" clip-rule="evenodd" />
@@ -246,7 +247,7 @@
                     <span>STYLE</span>
                 </a>
             </li>
-            <li class="w-full">
+            <li class="w-full bg-white">
                 <a href="#tile" on:click={() => activeTab = "tile"} class="w-full inline-flex justify-center p-4 border-t-2 {activeTab === 'tile' ? 'text-white bg-indigo-600 border-indigo-600' : 'border-transparent'}">
                     <svg aria-hidden="true" class="w-5 h-5 mr-1 {activeTab === 'tile' ? 'text-white' : 'text-gray-400'}" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h2.25a3 3 0 013 3v2.25a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm9.75 0a3 3 0 013-3H18a3 3 0 013 3v2.25a3 3 0 01-3 3h-2.25a3 3 0 01-3-3V6zM3 15.75a3 3 0 013-3h2.25a3 3 0 013 3V18a3 3 0 01-3 3H6a3 3 0 01-3-3v-2.25zm9.75 0a3 3 0 013-3H18a3 3 0 013 3V18a3 3 0 01-3 3h-2.25a3 3 0 01-3-3v-2.25z" clip-rule="evenodd" />
