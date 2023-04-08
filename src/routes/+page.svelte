@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { saveAs } from 'file-saver';
     import { tick } from 'svelte';
     import Uploader from "$lib/components/Uploader.svelte";
 
@@ -12,6 +13,7 @@
     let alpha = 50;
     let textSize = 32;
     let tileSpace = 24;
+    let canSave = false;
 
     const imageChanged = () => {
         const ctx = canvas.getContext('2d');
@@ -85,8 +87,9 @@
     }
 
     const applyChange = async () => {
-        markedImage = canvas.toDataURL();
+        markedImage = canvas.toDataURL(images[0].type);
         resetAll();
+        canSave = true;
     }
 </script>
 
@@ -100,8 +103,20 @@
 </div>
 
 <div class:hidden={!isUploaded}>
-    <div class="fixed bottom-0 left-0 z-50 w-full border-t border-gray-200">
-        <div class="w-full bg-indigo-600">
+    <div class="fixed bottom-0 left-0 z-50 w-full">
+        <div class="flex justify-end" class:hidden={!canSave}>
+            <button
+                type="button"
+                title="Save"
+                class="mb-2 mr-3 p-1 rounded-full bg-indigo-400 text-white"
+                on:click={() => saveAs(markedImage, images[0].name)}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </button>
+        </div>
+        <div class="w-full bg-indigo-600 border-t border-gray-200">
             <div
                 class="flex justify-center space-x-2 w-full p-4 transition-opacity duration-150 ease-linear"
                 class:hidden={activeTab !== "text"}
